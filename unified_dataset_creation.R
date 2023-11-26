@@ -40,7 +40,7 @@ covid_df <- filter(covid_df, Country == "United States of America")
 
 # COVID data
   # convert Date rows to Date class 
-# conversion of date rowee
+# conversion of date rows
 
 #covid_df$Date <- as.Date(covid_df$date)
 covid_df$Date <- as.Date(covid_df$Date, format = "%Y-%m-%d")
