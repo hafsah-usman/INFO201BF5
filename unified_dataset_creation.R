@@ -36,12 +36,16 @@ covid_df <- filter(covid_df, Country == "United States of America")
 
 # ------------------ TIME FRAME FOR DATA SETS ------------------ #
 
-# only need data between May 2020 - September of 2023
+# only need data between April 2020 - September of 2023
 
 # COVID data
-  # convert Date rows to Date class 
-# conversion of date rows
-
-#covid_df$Date <- as.Date(covid_df$date)
+  # convert Date rows to Date class
 covid_df$Date <- as.Date(covid_df$Date, format = "%Y-%m-%d")
-covid_df <- covid_df[covid_df$Date >= as.Date("2020-05-01") & covid_df$Date <= as.Date("2023-09-30"), ]
+  # keep data between April 2020 and October 2023 
+covid_df <- covid_df[covid_df$Date >= as.Date("2020-06-01") & covid_df$Date <= as.Date("2023-09-30"), ]
+
+# MENTAL HEALTH data
+  # convert Date rows to Date class
+mental_health_df$Date <- as.Date(mental_health_df$Date, format = "%m/%d/%Y")
+  # keep data between April 2020 and October 2023 
+mental_health_df <- mental_health_df[mental_health_df$Date >= as.Date("2020-06-01") & mental_health_df$Date <= as.Date("2023-09-30"), ]
