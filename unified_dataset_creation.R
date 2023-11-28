@@ -48,7 +48,8 @@ covid_df <- covid_df[covid_df$Date >= as.Date("2020-06-01") & covid_df$Date <= a
   # convert Date column to Date class
 mental_health_df$Date <- as.Date(mental_health_df$Date, format = "%m/%d/%Y")
   # keep data between April 2020 and October 2023 
-mental_health_df <- mental_health_df[mental_health_df$Date >= as.Date("2020-06-01") & mental_health_df$Date <= as.Date("2023-09-30"), ]
+mental_health_df <- mental_health_df[mental_health_df$Date >= as.Date("2020-06-01") 
+                                     & mental_health_df$Date <= as.Date("2023-09-30"), ]
 
 # -------------- CREATE MONTH ONLY COLUMN --------------------------- #
 
@@ -63,16 +64,23 @@ covid_df$Month <- format(covid_df$date_column, "%m")
 mental_health_df$date_column <- as.Date(mental_health_df$Date)  
 mental_health_df$Month <- format(mental_health_df$date_column, "%m")
 
-# -------------- CREATE DIAGNOSTIC CRITERIA COLUMN --------------------------- #
 
-# DEPRESSION: 
-# 0-4 none/minimal 
-# 5-9 mild 
-# 10-14 moderate 
-# 15-19 moderately severe
-# 20-27 severe
-#mental_health_df$Diagnostic <- format(mental_health_df$)
-# Assuming your data frame is called df and you have columns "Condition" and "Percentage"
-mental_health_df$Severity_Level <- cut(mental_health_df$Value, breaks = c(-Inf, 25, 50, Inf), labels = c("Low Risk", "Moderate Risk", "High Risk"), right = FALSE)
+# --------------- MERGE DATA --------------------------------------- #
 
-# ANXIETY: 
+# outer join/full join - using 'Date' value as matching condition
+unified_df <- merge(x=covid_df, y=mental_health_df, by="Date", all = TRUE)
+
+# -------------- CREATE RISK LEVEL COLUMN --------------------------- #
+
+# for either condition, assess risk based on percentage value given # NEW CATEGORICAL COLUMN
+
+unified_df$Risk <- cut(unified_df$Value, breaks = c(-Inf, 25, 50, Inf), 
+                       labels = c("Low Risk", "Moderate Risk", "High Risk"), right = FALSE)
+ 
+
+# -------------- CONDENSE DATA --------------------------- #
+
+# find average of all data for each month
+
+print(colnames(unified_df))
+
